@@ -3,7 +3,7 @@ from googletrans import Translator
 import speech_recognition as sr
 import threading
 
-
+flag = True
 def transcribe_audio():
     # Inicializa o reconhecedor de fala
     r = sr.Recognizer()
@@ -41,8 +41,16 @@ def toggle_window_movement(event=None):
 
 
 def start_transcribing():
-    while True:
+    global flag
+    while flag:
         transcribe_audio()
+
+
+def on_closing():
+    global flag
+    flag = False
+    root.quit()
+    print("Closing")
 
 
 root = tk.Tk()
@@ -89,6 +97,7 @@ labelpt = tk.Label(root, text="", fg="white", bg="black")
 labelpt.pack()
 
 if __name__ == '__main__':
+    root.protocol("WM_DELETE_WINDOW", on_closing)
     thread = threading.Thread(target=start_transcribing)
     thread.start()
     root.mainloop()
