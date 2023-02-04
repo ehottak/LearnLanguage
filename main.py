@@ -3,6 +3,7 @@ from googletrans import Translator
 import speech_recognition as sr
 import threading
 
+
 def transcribe_audio():
     # Inicializa o reconhecedor de fala
     r = sr.Recognizer()
@@ -18,11 +19,12 @@ def transcribe_audio():
     try:
         labelListerning.config(image=imgSMic)
         text = r.recognize_google(audio, language='pt-BR')
-        labelPtBr = text
-        translator = Translator()
-        text = translator.translate(text, dest='en').text
-        labelpt.config(text=labelPtBr)
-        label.config(text=text)
+        if text:
+            labelPtBr = text
+            translator = Translator()
+            text = translator.translate(text, dest='en').text
+            labelpt.config(text=labelPtBr)
+            label.config(text=text)
     except sr.UnknownValueError:
         label.config(text="Não foi possível entender o que você disse")
         labelpt.config(text="")
@@ -37,9 +39,11 @@ def toggle_window_movement(event=None):
     window_movement_enabled = not window_movement_enabled
     root.overrideredirect(not window_movement_enabled)
 
+
 def start_transcribing():
     while True:
         transcribe_audio()
+
 
 root = tk.Tk()
 
@@ -56,7 +60,7 @@ window_width = 1000
 window_height = 50
 
 # centralizar
-x_coordinate = (screen_width/2) - (window_width/2)
+x_coordinate = (screen_width / 2) - (window_width / 2)
 y_coordinate = 0
 
 # Desativa o movimento da janela
@@ -66,13 +70,11 @@ root.overrideredirect(True)
 # Definir coordenadas para centralizar
 root.geometry("{}x{}+{}+{}".format(window_width, window_height, int(x_coordinate), int(y_coordinate)))
 
-
-
 btn = tk.Button(root, text="X", command=toggle_window_movement)
 
 # Coloca o botão no canto inferior direito da janela
 btn.pack(side=tk.RIGHT, anchor=tk.N)
-btn.config(bg="black" , fg="white",bd=0)
+btn.config(bg="black", fg="white", bd=0)
 
 imgSMic = tk.PhotoImage(file='sem-mic.png')
 imgCMic = tk.PhotoImage(file='com-microfone.png')
@@ -85,9 +87,6 @@ label.pack()
 
 labelpt = tk.Label(root, text="", fg="white", bg="black")
 labelpt.pack()
-
-
-
 
 if __name__ == '__main__':
     thread = threading.Thread(target=start_transcribing)
