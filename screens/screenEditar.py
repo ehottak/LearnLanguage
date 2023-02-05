@@ -1,5 +1,8 @@
 import tkinter as tk
+
 from utils import utils
+from utils.utils import save_config
+
 
 class ScreenEditar(tk.Toplevel):
     def __init__(self, master=None):
@@ -32,7 +35,7 @@ class ScreenEditar(tk.Toplevel):
         # Tamanho da Janela e aonde vai ficar a janela
         self.geometry("{}x{}+{}+{}".format(win_config_width, win_config_height, int(wind_x_coord), int(wind_y_coord)))
 
-        #imagens
+        # imagens
         self.imgSave = tk.PhotoImage(file='./resources/icon-salvar.png')
 
         # Botao salvar
@@ -41,4 +44,10 @@ class ScreenEditar(tk.Toplevel):
         btnSave.config(bg="black", bd=0)
 
     def on_save(self):
+        save_config()
         self.destroy()
+
+
+
+# main_width, main_height, color_main, color_edit, top_most, resizible_width, resizible_height, language_size, you_language_size, move_main, you_language, translate = load_config()
+# apply_config(main_width, main_height, color_main, color_edit, top_most, resizible_width, resizible_height, language_size, you_language_size, move_main, you_language, translate)

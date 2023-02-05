@@ -5,10 +5,12 @@ import speech_recognition as sr
 import utils.utils
 from screens.screenEditar import ScreenEditar
 
+
 def open_editor():
    editor = ScreenEditar()
    editor.mainloop()
 
+main_width, main_height, color_main, color_edit, top_most, resizable_width, resizable_height, language_size, you_language_size, move_main, you_language, translate = utils.utils.load_config()
 
 flag = True
 
@@ -16,20 +18,20 @@ class ScreenMain():
     def __init__(self, root):
         self.root = root
         # Deixa tela sempre na frente
-        root.attributes("-topmost", True)
+        root.attributes("-topmost", top_most)
         # MODO DARK
         root["bg"] = "black"
         # Titulo
         root.title("Learn Language")
 
         # Não deixa redimensionar tela
-        root.resizable(False, False)
+        root.resizable(resizable_width, resizable_height)
         # Pega o tamanho da tela
         screen_width, screen_height = utils.utils.get_screen_size()
 
         # TAMANHO DA TELINHA EM SI
-        window_width = 1000
-        window_height = 50
+        window_width = main_width
+        window_height = main_height
 
         # centralizar
         x_coordinate = (screen_width / 2) - (window_width / 2)
@@ -61,11 +63,11 @@ class ScreenMain():
         self.label_listerning.pack(side=tk.LEFT, padx=10, pady=10)
 
         # Audio Traduzido
-        self.label = tk.Label(root, text="OUVINDO:", fg="white", bg="black", font=("Helvetica", 16, "bold"))
+        self.label = tk.Label(root, text="OUVINDO:", fg="white", bg="black", font=("Helvetica", language_size, "bold"))
         self.label.pack()
 
         # Audio Falado
-        self.label_pt = tk.Label(root, text="", fg="white", bg="black", font=("Helvetica", 10, "bold"))
+        self.label_pt = tk.Label(root, text="", fg="white", bg="black", font=("Helvetica", you_language_size, "bold"))
         self.label_pt.pack()
 
     def transcribe_audio(self):
@@ -82,7 +84,7 @@ class ScreenMain():
         # Reconhece o áudio
         try:
             self.label_listerning.config(image=self.img_sem_mic)
-            text = r.recognize_google(audio, language='pt-BR')
+            text = r.recognize_google(audio, language=you_language)
             # converte o texto em lista para validar se oque foi dito é muito grande
             words = text.split()
             if len(words) >= 17:
@@ -92,7 +94,7 @@ class ScreenMain():
             if text:
                 label_ptbr = text
                 translator = Translator()
-                text = translator.translate(text, dest='en').text
+                text = translator.translate(text, dest=translate).text
                 self.label_pt.config(text=label_ptbr)
                 self.label.config(text=text)
         except sr.UnknownValueError:
