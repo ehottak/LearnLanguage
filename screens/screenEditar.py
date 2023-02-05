@@ -1,5 +1,5 @@
 import tkinter as tk
-from utils import sizeUtils
+from utils import utils
 
 class ScreenEditar(tk.Toplevel):
     def __init__(self, master=None):
@@ -25,7 +25,7 @@ class ScreenEditar(tk.Toplevel):
         win_config_height = 500
 
         # CENTRALIZAR NO MEIO DA TELA
-        screen_width, screen_height = sizeUtils.get_screen_size()
+        screen_width, screen_height = utils.get_screen_size()
         wind_x_coord = (screen_width / 2) - (win_config_width / 2)
         wind_y_coord = (screen_height / 2) - (win_config_height / 2)
 

@@ -1,6 +1,8 @@
 import tkinter as tk
 from googletrans import Translator
 import speech_recognition as sr
+
+import utils.utils
 from screens.screenEditar import ScreenEditar
 
 def open_editor():
@@ -23,8 +25,7 @@ class ScreenMain():
         # Não deixa redimensionar tela
         root.resizable(False, False)
         # Pega o tamanho da tela
-        screen_width = root.winfo_screenwidth()
-        root.winfo_screenheight()
+        screen_width, screen_height = utils.utils.get_screen_size()
 
         # TAMANHO DA TELINHA EM SI
         window_width = 1000
