@@ -8,12 +8,11 @@ def get_screen_size():
     root.destroy()
     return screen_width, screen_height
 
-def save_config(main_width, main_height, color_main, color_edit, top_most, resizable_width, resizable_height, language_size, you_language_size, move_main, you_language, translate):
+def save_config(main_width, main_height, top_most, resizable_width, resizable_height, language_size, you_language_size, move_main, you_language, translate):
+
     config = {
         "main_width": main_width,
         "main_height": main_height,
-        "color_main": color_main,
-        "color_edit": color_edit,
         "top_most": top_most,
         "resizable_width": resizable_width,
         "resizable_height": resizable_height,
@@ -24,14 +23,15 @@ def save_config(main_width, main_height, color_main, color_edit, top_most, resiz
         "translate": translate
     }
 
+    with open("config.cfg", "w") as f:
+        json.dump(config, f)
+
 def load_config():
     with open("config.cfg", "r") as f:
         config = json.load(f)
 
     main_width = config["main_width"]
     main_height = config["main_height"]
-    color_main = config["color_main"]
-    color_edit = config["color_edit"]
     top_most = config["top_most"]
     resizable_width = config["resizable_width"]
     resizable_height = config["resizable_height"]
@@ -41,4 +41,13 @@ def load_config():
     you_language = config["you_language"]
     translate = config["translate"]
 
-    return main_width, main_height, color_main, color_edit, top_most, resizable_width, resizable_height, language_size, you_language_size, move_main, you_language, translate
+    return main_width, main_height, top_most, resizable_width, resizable_height, language_size, you_language_size, move_main, you_language, translate
+
+def get_languages():
+    languages = ["ar-AE", "de-DE", "en-US", "es-ES", "fr-FR", "hi-IN", "id-ID", "it-IT", "ja-JP", "ko-KR", "nl-NL",
+                 "pl-PL", "pt-BR", "pt-PT", "ru-RU", "th-TH", "tr-TR", "vi-VN", "zh-CN"]
+    return languages
+
+def get_translate_languages():
+    languages = ["en", "es", "fr", "de", "pt", "it", "ru", "ja", "zh-cn", "ar"]
+    return languages

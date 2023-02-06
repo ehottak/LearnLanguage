@@ -10,7 +10,7 @@ def open_editor():
    editor = ScreenEditar()
    editor.mainloop()
 
-main_width, main_height, color_main, color_edit, top_most, resizable_width, resizable_height, language_size, you_language_size, move_main, you_language, translate = utils.utils.load_config()
+main_width, main_height, top_most, resizable_width, resizable_height, language_size, you_language_size, move_main, you_language, translate = utils.utils.load_config()
 
 flag = True
 
