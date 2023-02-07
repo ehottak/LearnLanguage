@@ -1,8 +1,6 @@
 import tkinter as tk
 import threading
-from screens.screenMains import ScreenMain
-
-
+from screens.screenMain import ScreenMain
 
 if __name__ == '__main__':
     root = tk.Tk()

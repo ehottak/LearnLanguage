@@ -2,12 +2,13 @@ import tkinter as tk
 
 from utils import utils
 
-main_width, main_height, top_most, resizable_width, resizable_height, language_size, you_language_size, move_main, you_language, translate = utils.load_config()
-
 
 class ScreenEditar(tk.Toplevel):
-    def __init__(self, master=None, **kw):
-        super(ScreenEditar, self).__init__(master, **kw)
+    def __init__(self, telaPrincipal):
+        super(ScreenEditar, self).__init__()
+        self.telaPrincipal = telaPrincipal
+        main_width, main_height, top_most, resizable_width, resizable_height, language_size, you_language_size, move_main, you_language, translate = utils.load_config()
+
         self.resizable(False, False)
         # Pega o tamanho da tela
         screen_width, screen_height = utils.get_screen_size()
@@ -31,7 +32,7 @@ class ScreenEditar(tk.Toplevel):
             text='Width')
         self.label_width.pack(fill="x", side="top")
         self.width_scale = tk.Scale(self.frame_width, command=self.set_width)
-        self.main_width = tk.IntVar()
+        self.main_width = tk.IntVar(value=main_width)
         self.width_scale.configure(
             background="#000000",
             foreground="#ffffff",
@@ -39,7 +40,7 @@ class ScreenEditar(tk.Toplevel):
             highlightbackground="#000000",
             highlightcolor="#000000",
             orient="horizontal",
-            to=2560,
+            to=screen_width,
             troughcolor="#ffffff",
             variable=self.main_width)
 
@@ -56,7 +57,7 @@ class ScreenEditar(tk.Toplevel):
             text='Height')
         self.label_height.pack(fill="x", side="top")
         self.height_scale = tk.Scale(self.frame_height, command=self.set_height)
-        self.main_height = tk.IntVar()
+        self.main_height = tk.IntVar(value=main_height)
         self.height_scale.configure(
             background="#000000",
             foreground="#ffffff",
@@ -80,12 +81,12 @@ class ScreenEditar(tk.Toplevel):
             state="normal",
             text='Language Translate Size')
         self.label_language_translate.pack(fill="x", side="top")
-        self.language_translate_scale = tk.Scale(self.frame_language_translate,command=self.set_size_trasnlate)
-        self.language_size = tk.IntVar()
+        self.language_translate_scale = tk.Scale(self.frame_language_translate, command=self.set_size_trasnlate)
+        self.language_size = tk.IntVar(value=language_size)
         self.language_translate_scale.configure(
             background="#000000",
             foreground="#ffffff",
-            from_=2,
+            from_=10,
             highlightbackground="#000000",
             highlightcolor="#000000",
             orient="horizontal",
@@ -106,11 +107,11 @@ class ScreenEditar(tk.Toplevel):
             text='You Language Size')
         self.labe_you_language.pack(fill="x", side="top")
         self.you_language_scale = tk.Scale(self.frame_you_language, command=self.set_size_you_lang)
-        self.you_language_size = tk.IntVar()
+        self.you_language_size = tk.IntVar(value=you_language_size)
         self.you_language_scale.configure(
             background="#000000",
             foreground="#ffffff",
-            from_=2,
+            from_=10,
             highlightbackground="#000000",
             highlightcolor="#000000",
             orient="horizontal",
@@ -133,16 +134,15 @@ class ScreenEditar(tk.Toplevel):
             relief="flat",
             text='Moved')
         self.label_moved.pack(fill="x", side="top")
-        self.moved_win = tk.StringVar(value='Select')
+        self.moved_win = tk.StringVar(value=move_main)
         self.moved = tk.Menubutton(self.frame_moved)
         self.moved.menu = tk.Menu(self.moved, tearoff=0)
-        self.moves=["True", "False"]
+        self.moves = ["True", "False"]
 
         for moved in self.moves:
-            self.moved.menu.add_command(label=moved,command=lambda language=moved: self.change_move_win(moved))
+            self.moved.menu.add_command(label=moved, command=lambda moved=moved: self.change_move_win(moved))
 
         self.moved['menu'] = self.moved.menu
-
 
         self.moved.configure(
             activebackground="#ffffff",
@@ -165,15 +165,16 @@ class ScreenEditar(tk.Toplevel):
             text='You Language')
         self.label_you_language.pack(fill="x", side="top")
 
-        self.you_language = tk.StringVar(value='Select')
+        self.you_language = tk.StringVar(value=you_language)
         self.you_language_select = tk.Menubutton(self.frame_)
-        self.you_language_select.menu = tk.Menu(self.you_language_select,  tearoff=0)
+        self.you_language_select.menu = tk.Menu(self.you_language_select, tearoff=0)
 
         self.languages_you = utils.get_languages()
 
         for language in self.languages_you:
             self.you_language_select.menu.add_command(label=language,
-                                                   command=lambda language=language: self.change_language_you(language))
+                                                      command=lambda language=language: self.change_language_you(
+                                                          language))
 
         self.you_language_select['menu'] = self.you_language_select.menu
 
@@ -202,7 +203,7 @@ class ScreenEditar(tk.Toplevel):
             text='Trasnlate To')
         self.label_translate_to.pack(fill="x", side="top")
 
-        self.translate_list = tk.StringVar(value='Select')
+        self.translate_list = tk.StringVar(value=translate)
         self.translate_select = tk.Menubutton(self.frame_trasnlate_to)
         self.translate_select.menu = tk.Menu(self.translate_select, tearoff=0)
 
@@ -256,11 +257,11 @@ class ScreenEditar(tk.Toplevel):
         self.configure(height=200, width=200)
 
     def on_save(self):
-        # (main_width, main_height, color_main, color_edit, top_most, resizable_width, resizable_height, language_size,
-        #  you_language_size, move_main, you_language, translate
-        utils.save_config(self.main_width.get(), self.main_height.get())
+        utils.save_config(self.main_width.get(), self.main_height.get(), self.moved_win.get(), False, False,
+                          self.language_size.get(), self.you_language_size.get(), self.moved_win.get(),
+                          self.you_language.get(), self.translate_list.get())
+        self.update_main()
         self.destroy()
-
 
     def on_cancel(self):
         self.destroy()
@@ -268,11 +269,12 @@ class ScreenEditar(tk.Toplevel):
     def change_language(self, language):
         self.translate_list.set(language)
         self.master.update_idletasks()
+
     def change_language_you(self, language):
         self.you_language.set(language)
         self.master.update_idletasks()
 
-    def change_move_win(self,moved):
+    def change_move_win(self, moved):
         self.moved_win.set(moved)
         self.master.update_idletasks()
 
@@ -288,7 +290,9 @@ class ScreenEditar(tk.Toplevel):
     def set_size_trasnlate(self, value):
         self.language_size.set(int(value))
 
+    def update_main(self):
+        self.telaPrincipal.on_save()
 
 
-# main_width, main_height, color_main, color_edit, top_most, resizible_width, resizible_height, language_size, you_language_size, move_main, you_language, translate = load_config()
-# apply_config(main_width, main_height, color_main, color_edit, top_most, resizible_width, resizible_height, language_size, you_language_size, move_main, you_language, translate)
+
+
