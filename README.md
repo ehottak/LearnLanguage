@@ -1,2 +1,2 @@
 # LearnLanguage
-Aprenda Inglês falando sua língua nativa
+Aprenda Qualquer lingua falando a sua nativa
