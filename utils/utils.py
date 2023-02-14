@@ -23,11 +23,11 @@ def save_config(main_width, main_height, top_most, resizable_width, resizable_he
         "translate": translate
     }
 
-    with open("config.cfg", "w") as f:
+    with open("cfg/config.cfg", "w") as f:
         json.dump(config, f)
 
 def load_config():
-    with open("config.cfg", "r") as f:
+    with open("cfg/config.cfg", "r") as f:
         config = json.load(f)
 
     main_width = config["main_width"]

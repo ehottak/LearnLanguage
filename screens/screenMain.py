@@ -7,7 +7,7 @@ from screens.screenEditar import ScreenEditar
 flag = True
 
 class ScreenMain():
-    def __init__(self,root):
+    def __init__(self, root):
         self.root = root
 
         self.load_config()
@@ -58,11 +58,13 @@ class ScreenMain():
         self.label_listerning.pack(side=tk.LEFT, padx=10, pady=10)
 
         # Audio Traduzido
-        self.label = tk.Label(root, text="OUVINDO:", fg="white", bg="black", font=("Helvetica", self.language_size, "bold"))
+        self.label = tk.Label(root, text="OUVINDO:", fg="white", bg="black",
+                              font=("Helvetica", self.language_size, "bold"))
         self.label.pack()
 
         # Audio Falado
-        self.label_pt = tk.Label(root, text="", fg="white", bg="black", font=("Helvetica", self.you_language_size, "bold"))
+        self.label_pt = tk.Label(root, text="", fg="white", bg="black",
+                                 font=("Helvetica", self.you_language_size, "bold"))
         self.label_pt.pack()
 
     def transcribe_audio(self):
@@ -83,7 +85,7 @@ class ScreenMain():
             # converte o texto em lista para validar se oque foi dito é muito grande
             words = text.split()
             if len(words) >= 17:
-                #pega so as 17 palavras ditas
+                # pega so as 17 palavras ditas
                 text = " ".join(words[:17])
 
             if text:
