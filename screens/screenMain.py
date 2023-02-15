@@ -105,11 +105,11 @@ class ScreenMain():
         global flag
         flag = False
         self.root.destroy()
-        print("Closing")
+
 
     def on_save(self):
         self.load_config()
-        print(self.window_width)
+
 
     def start_transcribing(self):
 
