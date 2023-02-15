@@ -11,8 +11,8 @@ if os.path.exists("log.log") and os.stat("log.log").st_size > MAX_FILE_SIZE:
     os.remove("log.log")
 
 if __name__ == '__main__':
-    # sys.stdout = open("log.txt", "w")
-    # sys.stderr = open("log.txt", "w")
+    sys.stdout = open("log.txt", "w")
+    sys.stderr = open("log.txt", "w")
     root = tk.Tk()
     mainTela = ScreenMain(root)
     root.protocol("WM_DELETE_WINDOW", mainTela.on_closing)

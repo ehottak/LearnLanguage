@@ -1,5 +1,5 @@
 import tkinter as tk
-
+from screens.screenCredit import ScreenCredit
 from utils import utils
 
 
@@ -235,17 +235,29 @@ class ScreenEditar(tk.Toplevel):
         self.save = tk.Button(self.frame_buttons)
         self.save.configure(
             background="#ffffff",
-            borderwidth=0,
+            borderwidth=1,
             justify="left",
             relief="groove",
             text='Save',
             width=10)
         self.save.pack(side="left")
         self.save.configure(command=self.on_save)
+
+        self.credit = tk.Button(self.frame_buttons)
+        self.credit.configure(
+            background="#ffffff",
+            borderwidth=1,
+            justify="center",
+            relief="groove",
+            text='?',
+            width=6)
+        self.credit.pack(side="left", fill="x",anchor="center")
+        self.credit.configure(command=self.show_credits)
+
         self.cancel = tk.Button(self.frame_buttons)
         self.cancel.configure(
             background="#ffffff",
-            borderwidth=0,
+            borderwidth=1,
             justify="right",
             relief="groove",
             text='Cancel',
@@ -255,6 +267,7 @@ class ScreenEditar(tk.Toplevel):
         self.frame_buttons.pack(side="top")
         self.frame_buttons.pack_propagate(0)
         self.configure(height=200, width=200)
+
 
     def on_save(self):
         utils.save_config(self.main_width.get(), self.main_height.get(), self.moved_win.get(), False, False,
@@ -293,6 +306,12 @@ class ScreenEditar(tk.Toplevel):
     def update_main(self):
         self.telaPrincipal.on_save()
 
-
+    def show_credits(self):
+        # Criando a janela toplevel para exibir os créditos
+        credits_window = tk.Toplevel(self)
+        credits_window.title("About")
+        # Instanciando a classe CreditScene na nova janela
+        credits_scene = ScreenCredit(credits_window)
+        credits_scene.pack(expand=True, fill='both')
 
 
