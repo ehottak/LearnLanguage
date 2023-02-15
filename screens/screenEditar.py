@@ -90,7 +90,7 @@ class ScreenEditar(tk.Toplevel):
             highlightbackground="#000000",
             highlightcolor="#000000",
             orient="horizontal",
-            to=40,
+            to=20,
             troughcolor="#ffffff",
             variable=self.language_size)
         self.language_translate_scale.pack(fill="x", side="top")
@@ -117,7 +117,7 @@ class ScreenEditar(tk.Toplevel):
             orient="horizontal",
             state="normal",
             takefocus=False,
-            to=40,
+            to=20,
             troughcolor="#ffffff",
             variable=self.you_language_size)
         self.you_language_scale.pack(fill="x", side="top")

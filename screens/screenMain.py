@@ -29,14 +29,14 @@ class ScreenMain():
         self.window_height = self.main_height
 
         # centralizar
-        x_coordinate = (screen_width / 2) - (self.window_width / 2)
-        y_coordinate = 0
+        self.x_coordinate = (screen_width / 2) - (self.window_width / 2)
+        self.y_coordinate = 0
 
         # Desativa o movimento da janela
         self.root.overrideredirect(self.move_windown)
 
         # Definir coordenadas para centralizar
-        root.geometry("{}x{}+{}+{}".format(self.window_width, self.window_height, int(x_coordinate), int(y_coordinate)))
+        root.geometry("{}x{}+{}+{}".format(self.window_width, self.window_height, int(self.x_coordinate), int(self.y_coordinate)))
 
         # Imagens para colocar botoes frames etc...
         self.img_editor = tk.PhotoImage(file='resources/icon-editor.png')
@@ -65,7 +65,7 @@ class ScreenMain():
         # Audio Falado
         self.label_pt = tk.Label(root, text="", fg="white", bg="black",
                                  font=("Helvetica", self.you_language_size, "bold"))
-        self.label_pt.pack()
+        self.label_pt.pack(side=tk.BOTTOM)
 
     def transcribe_audio(self):
         # Inicializa o reconhecedor de fala
@@ -82,6 +82,7 @@ class ScreenMain():
         try:
             self.label_listerning.config(image=self.img_sem_mic)
             text = r.recognize_google(audio, language=self.you_language)
+            print(self.you_language)
             # converte o texto em lista para validar se oque foi dito é muito grande
             words = text.split()
             if len(words) >= 17:
@@ -109,6 +110,7 @@ class ScreenMain():
 
     def on_save(self):
         self.load_config()
+        self.on_save_config()
 
 
     def start_transcribing(self):
@@ -123,4 +125,18 @@ class ScreenMain():
 
     def load_config(self):
         self.main_width, self.main_height, self.move, self.resizable_width, self.resizable_height, self.language_size, self.you_language_size, self.move_main, self.you_language, self.translate = utils.load_config()
+
         return self.main_width, self.main_height, self.move, self.resizable_width, self.resizable_height, self.language_size, self.you_language_size, self.move_main, self.you_language, self.translate
+
+    def on_save_config(self):
+        main_width, main_height, move, resizable_width, resizable_height, language_size, you_language_size, move_main, you_language, translate = self.load_config()
+        screen_width, screen_height = utils.get_screen_size()
+        x_coordinate = (screen_width / 2) - (main_width / 2)
+        self.root.geometry("{}x{}+{}+{}".format(main_width, main_height, int(x_coordinate), int(0)))
+        self.label_pt.config(font=("Helvetica", you_language_size, "bold"))
+        self.label.config(font=("Helvetica", language_size, "bold"))
+        self.move_windown = move == "False"
+        self.root.overrideredirect(self.move_windown)
+
+
+
